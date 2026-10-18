@@ -1,4 +1,4 @@
-package ar.edu.ungs.prog2.smartgrids;
+package smartGrids;
 
 import java.util.List;
 import java.util.Map;

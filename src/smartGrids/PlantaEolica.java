@@ -1,4 +1,4 @@
-package ar.edu.ungs.prog2.smartgrids;
+package smartGrids;
 
 public class PlantaEolica extends Planta {
     int cantidadAerogeneradores;

@@ -1,4 +1,4 @@
-package ar.edu.ungs.prog2.smartgrids;
+package smartGrids;
 
 public class PlantaSolar extends Planta {
     double superficieCubierta;

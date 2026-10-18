@@ -1,4 +1,4 @@
-package ar.edu.ungs.prog2.smartgrids;
+package smartGrids;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
