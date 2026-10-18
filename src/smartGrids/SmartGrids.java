@@ -9,6 +9,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
+import java.time.format.DateTimeFormatter;
 
 
 
@@ -69,15 +70,22 @@ public class SmartGrids implements ISmartGrids {
 	    @Override
 	    public List<String> consultarPlantas() {
 	        List<String> resultado = new ArrayList<>();
+	        // 1. Creamos el formateador con el patrón exacto que pide el test
+	        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
+
 	        for (Map.Entry<String, Planta> entry : plantas.entrySet()) {
 	            String nombre = entry.getKey();
 	            Planta p = entry.getValue();
 	            String estadoStr = estaActiva(nombre) ? "ACTIVA" : "INACTIVA";
-	            resultado.add(nombre + " (" + estadoStr + "): " + p.puestaEnFuncionamiento.toString());
+	            
+	            // 2. Formateamos la fecha usando el formatter en lugar de .toString()
+	            String fechaFormateada = p.puestaEnFuncionamiento.format(formatter);
+	            
+	            // 3. Armamos el resultado
+	            resultado.add(nombre + " (" + estadoStr + "): " + fechaFormateada);
 	        }
 	        return resultado;
 	    }
-
 	    @Override
 	    public double capacidadMinimaCuota(String nombre) {
 	        return obtenerPlanta(nombre).calcularCuota();
@@ -242,17 +250,33 @@ public class SmartGrids implements ISmartGrids {
 	                PlantaEolica pe = (PlantaEolica) entry.getValue();
 	                List<Monitoreo> lista = monitoreos.get(pe.nombre);
 	                
-	                List<String> horasStr = new ArrayList<>();
+	                // Usamos arrays para las 24 horas del día
+	                boolean[] horaMonitoreada = new boolean[24];
+	                boolean[] alcanzoMinimo = new boolean[24];
+	                
+	                // Recorremos todos los monitoreos para ver en qué horas se llegó a la cuota
 	                for (Monitoreo m : lista) {
-	                    if (m.extra1 < pe.velocidadMinimaViento) {	                  
-	                        horasStr.add(String.format("        %02d: %.0f m/s", m.fechaHora.getHour(), m.extra1));
+	                    int horaDelDia = m.fechaHora.getHour();
+	                    horaMonitoreada[horaDelDia] = true; // Marcamos que existe un registro a esta hora
+	                    
+	                    if (m.extra1 >= pe.velocidadMinimaViento) {
+	                        alcanzoMinimo[horaDelDia] = true; // Si en algún día superó el mínimo, se salva
 	                    }
 	                }
 	                
-	                if (!horasStr.isEmpty()) {
-	                    sb.append("- ").append(pe.nombre).append(": ").append((int)pe.velocidadMinimaViento).append(" m/s\n");
-	                    for (String hs : horasStr) {
-	                        sb.append(hs).append("\n");
+	                // Juntamos las horas que nunca alcanzaron el mínimo
+	                List<Integer> horasBajas = new ArrayList<>();
+	                for (int i = 0; i < 24; i++) {
+	                    if (horaMonitoreada[i] && !alcanzoMinimo[i]) {
+	                        horasBajas.add(i);
+	                    }
+	                }
+	                
+	                // Si hay horas reportables, las agregamos al texto
+	                if (!horasBajas.isEmpty()) {
+	                    sb.append("- ").append(pe.nombre).append(":\n");
+	                    for (Integer h : horasBajas) {
+	                        sb.append(String.format("        %02d hs\n", h));
 	                    }
 	                }
 	            }
