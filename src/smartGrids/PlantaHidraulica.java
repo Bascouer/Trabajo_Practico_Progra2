@@ -1,8 +1,8 @@
 package smartGrids;
 
 public class PlantaHidraulica extends Planta {
-    int cantidadTurbinas;
-    double capacidadEmbalse;
+    private int cantidadTurbinas;
+    private double capacidadEmbalse;
 
     public PlantaHidraulica(String nombre, String direccion, double capacidadMaxima, String fechaHoraPuestaEnFuncionamiento,
                             String fuentePrimaria, double eficienciaPromedio, int cantidadTurbinas, double capacidadEmbalse) {
@@ -13,11 +13,17 @@ public class PlantaHidraulica extends Planta {
 
     @Override
     public double calcularCuota() {
-        return capacidadMaxima * eficienciaPromedio;
+        return this.getCapacidadMaxima() * this.getEficienciaPromedio();
     }
 
     @Override
     public boolean cumpleCuota(Monitoreo m) {
-        return m.energia >= calcularCuota();
+        return m.getEnergia() >= calcularCuota();
+    }
+    public int getCantidadTurbinas() {
+        return cantidadTurbinas;
+    }
+    public double getCapacidadEmbalse() {
+        return capacidadEmbalse;
     }
 }

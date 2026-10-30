@@ -79,7 +79,7 @@ public class SmartGrids implements ISmartGrids {
 	            String estadoStr = estaActiva(nombre) ? "ACTIVA" : "INACTIVA";
 	            
 	            // 2. Formateamos la fecha usando el formatter en lugar de .toString()
-	            String fechaFormateada = p.puestaEnFuncionamiento.format(formatter);
+	            String fechaFormateada = p.getPuestaEnFuncionamiento().format(formatter);
 	            
 	            // 3. Armamos el resultado
 	            resultado.add(nombre + " (" + estadoStr + "): " + fechaFormateada);
@@ -112,7 +112,7 @@ public class SmartGrids implements ISmartGrids {
 	        if (lista.isEmpty()) {
 	            return true; 
 	        }
-	        return lista.get(lista.size() - 1).activa;
+	        return lista.get(lista.size() - 1).EstaActiva();
 	    }
 
 
@@ -122,7 +122,7 @@ public class SmartGrids implements ISmartGrids {
 	            throw new RuntimeException("Energía e incidencias no pueden ser negativas");
 	        }
 	        LocalDateTime dt = parsearFechaHora(fechaHora);
-	        if (dt.isBefore(p.puestaEnFuncionamiento)) {
+	        if (dt.isBefore(p.getPuestaEnFuncionamiento())) {
 	            throw new RuntimeException("Fecha anterior a la puesta en funcionamiento");
 	        }
 	        // Verificar si estuvo inactiva en ese momento exacto o previo
@@ -131,7 +131,7 @@ public class SmartGrids implements ISmartGrids {
 	        }
 	        // Validar duplicado para la misma hora
 	        for (Monitoreo m : monitoreos.get(nombre)) {
-	            if (m.fechaHora.equals(dt)) {
+	            if (m.getFechaHora().equals(dt)) {
 	                throw new RuntimeException("Ya existe un monitoreo para esta hora");
 	            }
 	        }
@@ -172,7 +172,7 @@ public class SmartGrids implements ISmartGrids {
 	        obtenerPlanta(nombre);
 	        double total = 0;
 	        for (Monitoreo m : monitoreos.get(nombre)) {
-	            total += m.energia;
+	            total += m.getEnergia();
 	        }
 	        return total;
 	    }
@@ -182,7 +182,7 @@ public class SmartGrids implements ISmartGrids {
 	        obtenerPlanta(nombre);
 	        int[] resultado = new int[24];
 	        for (Monitoreo m : monitoreos.get(nombre)) {
-	            resultado[m.fechaHora.getHour()] += m.incidencias;
+	            resultado[m.getFechaHora().getHour()] += m.getIncidencias();
 	        }
 	        return resultado;
 	    }
@@ -198,10 +198,10 @@ public class SmartGrids implements ISmartGrids {
 
 	        int[] hist = new int[24];
 	        for (Monitoreo m : monitoreos.get(nombre)) {
-	            LocalDate d = m.fechaHora.toLocalDate();
+	            LocalDate d = m.getFechaHora().toLocalDate();
 	            if (!d.isBefore(inicio) && !d.isAfter(fin)) {
 	                if (p.cumpleCuota(m)) {
-	                    hist[m.fechaHora.getHour()]++;
+	                    hist[m.getFechaHora().getHour()]++;
 	                }
 	            }
 	        }
@@ -212,8 +212,8 @@ public class SmartGrids implements ISmartGrids {
 	    public Map<String, Integer> plantasRenovablesPorFuente() {
 	        Map<String, Integer> mapa = new TreeMap<>();
 	        for (Planta p : plantas.values()) {
-	            if (p.renovable) {
-	                mapa.put(p.fuentePrimaria, mapa.getOrDefault(p.fuentePrimaria, 0) + 1);
+	            if (p.EsRenovable()) {
+	                mapa.put(p.getFuentePrimaria(), mapa.getOrDefault(p.getFuentePrimaria(), 0) + 1);
 	            }
 	        }
 	        return mapa;
@@ -248,7 +248,7 @@ public class SmartGrids implements ISmartGrids {
 	        for (Map.Entry<String, Planta> entry : plantas.entrySet()) {
 	            if (entry.getValue() instanceof PlantaEolica) {
 	                PlantaEolica pe = (PlantaEolica) entry.getValue();
-	                List<Monitoreo> lista = monitoreos.get(pe.nombre);
+	                List<Monitoreo> lista = monitoreos.get(pe.getNombre());
 	                
 	                // Usamos arrays para las 24 horas del día
 	                boolean[] horaMonitoreada = new boolean[24];
@@ -256,10 +256,10 @@ public class SmartGrids implements ISmartGrids {
 	                
 	                // Recorremos todos los monitoreos para ver en qué horas se llegó a la cuota
 	                for (Monitoreo m : lista) {
-	                    int horaDelDia = m.fechaHora.getHour();
+	                    int horaDelDia = m.getFechaHora().getHour();
 	                    horaMonitoreada[horaDelDia] = true; // Marcamos que existe un registro a esta hora
 	                    
-	                    if (m.extra1 >= pe.velocidadMinimaViento) {
+	                    if (m.getExtra1() >= pe.getVelocidadMinimaViento()) {
 	                        alcanzoMinimo[horaDelDia] = true; // Si en algún día superó el mínimo, se salva
 	                    }
 	                }
@@ -274,7 +274,7 @@ public class SmartGrids implements ISmartGrids {
 	                
 	                // Si hay horas reportables, las agregamos al texto
 	                if (!horasBajas.isEmpty()) {
-	                    sb.append("- ").append(pe.nombre).append(":\n");
+	                    sb.append("- ").append(pe.getNombre()).append(":\n");
 	                    for (Integer h : horasBajas) {
 	                        sb.append(String.format("        %02d hs\n", h));
 	                    }
@@ -291,7 +291,7 @@ public class SmartGrids implements ISmartGrids {
 	            Iterator<Monitoreo> it = lista.iterator();
 	            while (it.hasNext()) {
 	                Monitoreo m = it.next();
-	                if (m.energia == 0 && m.incidencias == 0) {
+	                if (m.getEnergia() == 0 && m.getIncidencias() == 0) {
 	                    it.remove();
 	                    borrados++;
 	                }
@@ -325,8 +325,8 @@ public class SmartGrids implements ISmartGrids {
 	            List<Estado> cambios = estados.get(nombre);
 	            boolean activa = true; // Por defecto nacen activas
 	            for (Estado ce : cambios) {
-	                if (!ce.fechaHora.isAfter(dt)) {
-	                    activa = ce.activa;
+	                if (!ce.getFechaHora().isAfter(dt)) {
+	                    activa = ce.EstaActiva();
 	                }
 	            }
 	            if (!activa) {

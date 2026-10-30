@@ -1,8 +1,8 @@
 package smartGrids;
 
 public  class PlantaTermica extends Planta {
-    double objetivoEmisionesCo2PorHora;
-    double capacidadAlmacenamientoCombustible;
+    private double objetivoEmisionesCo2PorHora;
+    private double capacidadAlmacenamientoCombustible;
 
     public PlantaTermica(String nombre, String direccion, double capacidadMaxima, String fechaHoraPuestaEnFuncionamiento, String tipoCombustible,
             double objetivoEmisionesCo2PorHora, double capacidadAlmacenamientoCombustible) {
@@ -13,11 +13,17 @@ public  class PlantaTermica extends Planta {
 
     @Override
     public double calcularCuota() {
-        return capacidadMaxima / 2.0;
+        return this.getCapacidadMaxima() / 2.0;
     }
 
     @Override
     public boolean cumpleCuota(Monitoreo m) {
-        return m.energia >= calcularCuota() && m.extra1 < objetivoEmisionesCo2PorHora;
+        return m.getEnergia() >= calcularCuota() && m.getExtra1() < objetivoEmisionesCo2PorHora;
+    }
+    public double getObjetivoEmisionesCo2PorHora() {
+        return objetivoEmisionesCo2PorHora;
+    }
+    public double getCapacidadAlmacenamientoCombustible() {
+        return capacidadAlmacenamientoCombustible;
     }
 }

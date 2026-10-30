@@ -3,13 +3,13 @@ package smartGrids;
 import java.time.LocalDateTime;
 
 public abstract class Planta {
-    protected String nombre;
-    protected String direccion;
-    protected double capacidadMaxima;
-    protected LocalDateTime puestaEnFuncionamiento;
-    protected String fuentePrimaria;
-    protected double eficienciaPromedio;
-    protected boolean renovable;    //cambie lo de diagrama,hay que modificar sin descartar el viejo, queda como un modelo descartado
+    private String nombre;
+    private String direccion;
+    private double capacidadMaxima;
+    private LocalDateTime puestaEnFuncionamiento;
+    private String fuentePrimaria;
+    private double eficienciaPromedio;
+    private boolean renovable;    //cambie lo de diagrama,hay que modificar sin descartar el viejo, queda como un modelo descartado
 
     public Planta(String nombre, String direccion, double capacidadMaxima, String fechaHoraPuestaEnFuncionamiento,
                   String fuentePrimaria, double eficienciaPromedio, boolean renovable) {
@@ -28,4 +28,25 @@ public abstract class Planta {
 
     public abstract double calcularCuota();
     public abstract boolean cumpleCuota(Monitoreo m);
+    public String getNombre() {
+        return nombre;
+    }
+    public String getDireccion() {
+        return direccion;
+    }
+    public double getCapacidadMaxima() {
+        return capacidadMaxima;
+    }
+    public LocalDateTime getPuestaEnFuncionamiento() {
+        return puestaEnFuncionamiento;
+    }
+    public String getFuentePrimaria() {
+        return fuentePrimaria;
+    }
+    public double getEficienciaPromedio() {
+        return eficienciaPromedio;
+    }
+    public boolean EsRenovable() {
+        return renovable;
+    }
 }

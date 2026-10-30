@@ -1,9 +1,9 @@
 package smartGrids;
 
 public class PlantaEolica extends Planta {
-    int cantidadAerogeneradores;
-    double alturaTorres;
-    double velocidadMinimaViento;
+    private int cantidadAerogeneradores;
+    private double alturaTorres;
+    private double velocidadMinimaViento;
 	
 
     public PlantaEolica(String nombre, String direccion, double capacidadMaxima, String fechaHoraPuestaEnFuncionamiento, String fuentePrimaria,
@@ -16,11 +16,20 @@ public class PlantaEolica extends Planta {
 }
     @Override
     public double calcularCuota() {
-        return capacidadMaxima * eficienciaPromedio;
+        return getCapacidadMaxima() * getEficienciaPromedio();
     }
 
     @Override
     public boolean cumpleCuota(Monitoreo m) {
-        return m.energia >= calcularCuota();
+        return m.getEnergia() >= calcularCuota();
+    }
+    public int getCantidadAerogeneradores() {
+        return cantidadAerogeneradores;
+    }
+    public double getAlturaTorres() {
+        return alturaTorres;
+    }
+    public double getVelocidadMinimaViento() {
+        return velocidadMinimaViento;
     }
 }
