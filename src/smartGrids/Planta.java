@@ -48,7 +48,7 @@ public abstract class Planta {
     public double getEficienciaPromedio() {
         return eficienciaPromedio;
     }
-    public boolean EsRenovable() {
+    public boolean esRenovable() {
         return renovable;
     }
     @Override

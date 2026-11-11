@@ -112,7 +112,7 @@ public class SmartGrids implements ISmartGrids {
 	        if (lista.isEmpty()) {
 	            return true; 
 	        }
-	        return lista.get(lista.size() - 1).EstaActiva();
+	        return lista.get(lista.size() - 1).estaActiva();
 	    }
 
 
@@ -212,7 +212,7 @@ public class SmartGrids implements ISmartGrids {
 	    public Map<String, Integer> plantasRenovablesPorFuente() {
 	        Map<String, Integer> mapa = new TreeMap<>();
 	        for (Planta p : plantas.values()) {
-	            if (p.EsRenovable()) {
+	            if (p.esRenovable()) {
 	                mapa.put(p.getFuentePrimaria(), mapa.getOrDefault(p.getFuentePrimaria(), 0) + 1);
 	            }
 	        }
@@ -326,7 +326,7 @@ public class SmartGrids implements ISmartGrids {
 	            boolean activa = true; // Por defecto nacen activas
 	            for (Estado ce : cambios) {
 	                if (!ce.getFechaHora().isAfter(dt)) {
-	                    activa = ce.EstaActiva();
+	                    activa = ce.estaActiva();
 	                }
 	            }
 	            if (!activa) {

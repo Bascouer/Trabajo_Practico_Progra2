@@ -14,7 +14,7 @@ public class Estado {
 	        return fechaHora;
 	    }
 
-	    public boolean EstaActiva() {
+	    public boolean estaActiva() {
 	        return activa;
 	    }
 	
