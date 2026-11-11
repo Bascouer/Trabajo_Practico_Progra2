@@ -209,12 +209,12 @@ public class SmartGrids implements ISmartGrids {
 	   @Override
          public Map<String, Integer> plantasRenovablesPorFuente() {
          Map<String, Integer> mapa = new LinkedHashMap<>();
-         for (Planta p : plantas.values()) {
-          if (p.esRenovable()) {
-              String fuente = p.getFuentePrimaria();
-               if (mapa.containsKey(fuente)) {
-                  mapa.put(fuente, mapa.get(fuente) + 1);
-               } else {
+         for (Planta p : plantas.values()) { //recorro plantas
+          if (p.esRenovable()) { // Verifico si es renovable
+              String fuente = p.getFuentePrimaria(); // Obtengo la fuente primaria
+               if (mapa.containsKey(fuente)) { // Si ya existe la fuente en el mapa, incremento el contador
+                  mapa.put(fuente, mapa.get(fuente) + 1); // Incremento el contador
+               } else { // Si no existe la fuente en el mapa, la agrego con contador 1
                 mapa.put(fuente, 1);
             }
         }
@@ -303,38 +303,38 @@ public class SmartGrids implements ISmartGrids {
 	        return borrados;
 	    }
 
-	    @Override
-    public List<String> plantasOrdenadasPorEnergiaGenerada() {
-    List<Planta> pendientes = new ArrayList<>(plantas.values());
-    List<String> resultado = new ArrayList<>();
+	@Override
+    public List<String> plantasOrdenadasPorEnergiaGenerada() { 
+    List<Planta> pendientes = new ArrayList<>(plantas.values()); // Copia de las plantas pendietes para ordenar
+    List<String> resultado = new ArrayList<>(); // Lista donde estaran los nombres ordenados por energía generada
 
-    while (!pendientes.isEmpty()) {
-        Planta mayor = pendientes.get(0);
-        for (Planta p : pendientes) {
-            if (totalGenerado(p.getNombre()) > totalGenerado(mayor.getNombre())) {
-                mayor = p;
+    while (!pendientes.isEmpty()) { // Mientras haya plantas pendientes
+        Planta mayor = pendientes.get(0); // Tomo la primera como mayor
+        for (Planta p : pendientes) { // Recorro todas las plantas pendientes
+            if (totalGenerado(p.getNombre()) > totalGenerado(mayor.getNombre())) { // Si la energía generada de p es mayor que la de mayor
+                mayor = p; // Actualizo mayor
             }
         }
-        resultado.add(mayor.getNombre() + ": " + totalGenerado(mayor.getNombre()));
-        pendientes.remove(mayor);
+        resultado.add(mayor.getNombre() + ": " + totalGenerado(mayor.getNombre())); // Agrego el nombre y la energía generada de la planta mayor a la lista de resultados
+        pendientes.remove(mayor); // La elimino de la lista de pendientes para no volver a considerarla
     }
-    return resultado;
+    return resultado; // Devuelvo la lista de nombres ordenados por energía generada
 }
 	    @Override
-	    public List<String> plantasInactivasEn(String fechaHora) {
-	        LocalDateTime dt = parsearFechaHora(fechaHora);
-	        List<String> inactivas = new ArrayList<>();
+	    public List<String> plantasInactivasEn(String fechaHora) { // Devuelve una lista de nombres de plantas que estaban inactivas en la fecha y hora indicada
+	        LocalDateTime dt = parsearFechaHora(fechaHora); // Parseo la fecha y hora indicada a LocalDateTime
+	        List<String> inactivas = new ArrayList<>(); // Lista donde se guardaran los nombres de las plantas inactivas
 	        
-	        for (String nombre : plantas.keySet()) {
-	            List<Estado> cambios = estados.get(nombre);
-	            boolean activa = true; // Por defecto nacen activas
-	            for (Estado ce : cambios) {
-	                if (!ce.getFechaHora().isAfter(dt)) {
-	                    activa = ce.estaActiva();
+	        for (String nombre : plantas.keySet()) { // Recorro todas las plantas registradas
+	            List<Estado> cambios = estados.get(nombre); // Obtengo la lista de cambios de estado de la planta
+	            boolean activa = true; 
+	            for (Estado ce : cambios) { // Recorro los cambios de estado de la planta
+	                if (!ce.getFechaHora().isAfter(dt)) { // Si el cambio de estado es anterior o igual a la fecha y hora indicada
+	                    activa = ce.estaActiva(); // Actualizo el estado de la planta según el cambio de estado
 	                }
 	            }
-	            if (!activa) {
-	                inactivas.add(nombre);
+	            if (!activa) { // Si la planta estaba inactiva en la fecha y hora indicada, la agrego a la lista de inactivas
+	                inactivas.add(nombre); // Agrego el nombre de la planta a la lista de inactivas
 	            }
 	        }
 	        return inactivas;
@@ -352,37 +352,35 @@ public class SmartGrids implements ISmartGrids {
 	        }
 	        return sb.toString();
 	    }
-	    
-	    
-	    
+
 	// --- Métodos Privados de Validación ---
 
     private void validarNombreUnico(String nombre) {
-        if (plantas.containsKey(nombre)) {
-            throw new RuntimeException("Ya existe una planta con el nombre: " + nombre);
+        if (plantas.containsKey(nombre)) { // Si ya existe una planta con ese nombre, lanza excepción
+            throw new RuntimeException("Ya existe una planta con el nombre: " + nombre); // Validación de nombre único
         }
     }
 
     private Planta obtenerPlanta(String nombre) {
-        Planta p = plantas.get(nombre);
-        if (p == null) {
-            throw new RuntimeException("La planta no existe: " + nombre);
+        Planta p = plantas.get(nombre);// Obtengo la planta del mapa por su nombre
+        if (p == null) { // Si no existe, lanza excepción
+            throw new RuntimeException("La planta no existe: " + nombre); 
         }
         return p;
     }
 
-    private LocalDateTime parsearFechaHora(String fechaHora) {
-        try {
+    private LocalDateTime parsearFechaHora(String fechaHora) { // Método privado para parsear fecha y hora
+        try { // Intento parsear la fechaHora usando LocalDateTime.parse
             return LocalDateTime.parse(fechaHora);
-        } catch (Exception e) {
+        } catch (Exception e) { // Si falla, lanza una RuntimeException con un mensaje de error
             throw new RuntimeException("Formato de fechaHora inválido: " + fechaHora);
         }
     }
 
-    private LocalDate parsearFecha(String fecha) {
-        try {
+    private LocalDate parsearFecha(String fecha) { // Método privado para parsear solo la fecha
+        try {  // Intento parsear la fecha usando LocalDate.parse
             return LocalDate.parse(fecha);
-        } catch (Exception e) {
+        } catch (Exception e) { // Si falla, lanza una RuntimeException con un mensaje de error
             throw new RuntimeException("Formato de fecha inválido: " + fecha);
         }
     }
