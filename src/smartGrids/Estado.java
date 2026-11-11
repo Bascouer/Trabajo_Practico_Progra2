@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 
 public class Estado {
 	 private LocalDateTime fechaHora;
-	    private boolean activa;
+	 private boolean activa;
 
 	    public Estado(LocalDateTime fechaHora, boolean activa) {
 	        this.fechaHora = fechaHora;

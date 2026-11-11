@@ -27,7 +27,9 @@ public abstract class Planta {
     }
 
     public abstract double calcularCuota();
+
     public abstract boolean cumpleCuota(Monitoreo m);
+    
     public String getNombre() {
         return nombre;
     }

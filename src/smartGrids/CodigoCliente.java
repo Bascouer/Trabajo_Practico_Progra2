@@ -44,10 +44,6 @@ public class CodigoCliente {
             System.out.println("Fallo esperado: " + e.getMessage());
         }
 
-        System.out.println("\nreporte Eolicas...");
-        System.out.println(sistema.horasSinVelocidadMinimaPorPlantaEolica());
-
-
         imprimirEstado("Final", sistema);
     }
 
@@ -55,9 +51,7 @@ public class CodigoCliente {
         System.out.println("\n--- " + momento + " INICIO ---");
         System.out.println(sistema.toString());
         System.out.println("\n--- " + momento + " Plantas ---");
-        System.out.println("Plantas registradas: ");
-        for (String planta: sistema.consultarPlantas())
-        	System.out.println(" - " + planta);
+        System.out.println("Plantas registradas: " + sistema.consultarPlantas());
         System.out.println("\n--- " + momento + " FIN ---");
     }
 }
