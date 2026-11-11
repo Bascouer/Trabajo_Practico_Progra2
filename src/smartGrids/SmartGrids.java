@@ -2,13 +2,11 @@ package smartGrids;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.TreeMap;
 import java.time.format.DateTimeFormatter;
 
 
@@ -208,16 +206,21 @@ public class SmartGrids implements ISmartGrids {
 	        return hist;
 	    }
 
-	    @Override
-	    public Map<String, Integer> plantasRenovablesPorFuente() {
-	        Map<String, Integer> mapa = new TreeMap<>();
-	        for (Planta p : plantas.values()) {
-	            if (p.esRenovable()) {
-	                mapa.put(p.getFuentePrimaria(), mapa.getOrDefault(p.getFuentePrimaria(), 0) + 1);
-	            }
-	        }
-	        return mapa;
-	    }
+	   @Override
+         public Map<String, Integer> plantasRenovablesPorFuente() {
+         Map<String, Integer> mapa = new LinkedHashMap<>();
+         for (Planta p : plantas.values()) {
+          if (p.esRenovable()) {
+              String fuente = p.getFuentePrimaria();
+               if (mapa.containsKey(fuente)) {
+                  mapa.put(fuente, mapa.get(fuente) + 1);
+               } else {
+                mapa.put(fuente, 1);
+            }
+        }
+    }
+    return mapa;
+}
 
 	    @Override
 	    public List<String> plantasQueNuncaCumplieronCuota() {
