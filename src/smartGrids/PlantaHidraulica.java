@@ -26,4 +26,10 @@ public class PlantaHidraulica extends Planta {
     public double getCapacidadEmbalse() {
         return capacidadEmbalse;
     }
+    @Override
+    public String toString() {  
+        return super.toString() + " | tipo: Hidraulica"
+                + " | cantidad de turbinas: " + cantidadTurbinas
+                + " | capacidad del embalse: " + capacidadEmbalse;
+    }
 }

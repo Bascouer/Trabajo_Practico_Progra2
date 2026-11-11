@@ -17,6 +17,12 @@ public class Estado {
 	    public boolean EstaActiva() {
 	        return activa;
 	    }
+	
+		@Override 
+		public String toString() {
+			return "Estado [fechaHora=" + fechaHora + ", activa=" + activa + "]";
+		}
+
 	}
 
 

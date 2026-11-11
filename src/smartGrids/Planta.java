@@ -51,4 +51,10 @@ public abstract class Planta {
     public boolean EsRenovable() {
         return renovable;
     }
+    @Override
+    public String toString() {
+    return "Planta " + nombre + " | direccion: " + direccion + " | capacidad maxima: " + capacidadMaxima + 
+    " | puesta en funcionamiento: " + puestaEnFuncionamiento + " | fuente primaria: " + fuentePrimaria + 
+    " | eficiencia: " + eficienciaPromedio  + " | renovable: " + (renovable ? "si" : "no");
+    }
 }

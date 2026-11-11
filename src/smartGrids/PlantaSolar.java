@@ -36,4 +36,12 @@ public class PlantaSolar extends Planta {
     public double getHorasRadiacionDiaria() {
         return horasRadiacionDiaria;
     }
+
+    @Override
+    public String toString() {
+        return super.toString() + " | tipo: Solar"
+                + " | superficie cubierta: " + superficieCubierta
+                + " | cantidad de paneles: " + cantidadPaneles
+                + " | horas de radiacion diaria: " + horasRadiacionDiaria;
+    }
 }

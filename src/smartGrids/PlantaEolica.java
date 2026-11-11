@@ -32,4 +32,11 @@ public class PlantaEolica extends Planta {
     public double getVelocidadMinimaViento() {
         return velocidadMinimaViento;
     }
+    @Override
+    public String toString() {
+    return super.toString() + " | tipo: Eolica"
+            + " | aerogeneradores: " + cantidadAerogeneradores
+            + " | altura de torres: " + alturaTorres
+            + " | velocidad minima de viento: " + velocidadMinimaViento;
+}
 }

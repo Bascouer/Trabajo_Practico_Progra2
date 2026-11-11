@@ -37,5 +37,11 @@ public LocalDateTime getFechaHora() {
     public double getExtra2() {
         return extra2;
     }
+
+    @Override 
+    public String toString() {
+        return "Monitoreo [fechaHora=" + fechaHora + ", energia=" + energia + ", incidencias=" + incidencias
+                + ", extra1=" + extra1 + ", extra2=" + extra2 + "]";
+    }
 }   
 
