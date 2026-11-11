@@ -301,21 +301,22 @@ public class SmartGrids implements ISmartGrids {
 	    }
 
 	    @Override
-	    public List<String> plantasOrdenadasPorEnergiaGenerada() {
-	        List<Map.Entry<String, Double>> listaTotales = new ArrayList<>();
-	        for (String nombre : plantas.keySet()) {
-	            listaTotales.add(new AbstractMap.SimpleEntry<>(nombre, totalGenerado(nombre)));
-	        }
-	        // Ordenar de mayor a menor energía
-	        listaTotales.sort((a, b) -> Double.compare(b.getValue(), a.getValue()));
+    public List<String> plantasOrdenadasPorEnergiaGenerada() {
+    List<Planta> pendientes = new ArrayList<>(plantas.values());
+    List<String> resultado = new ArrayList<>();
 
-	        List<String> resultado = new ArrayList<>();
-	        for (Map.Entry<String, Double> entry : listaTotales) {
-	            resultado.add(entry.getKey() + ": " + entry.getValue());
-	        }
-	        return resultado;
-	    }
-
+    while (!pendientes.isEmpty()) {
+        Planta mayor = pendientes.get(0);
+        for (Planta p : pendientes) {
+            if (totalGenerado(p.getNombre()) > totalGenerado(mayor.getNombre())) {
+                mayor = p;
+            }
+        }
+        resultado.add(mayor.getNombre() + ": " + totalGenerado(mayor.getNombre()));
+        pendientes.remove(mayor);
+    }
+    return resultado;
+}
 	    @Override
 	    public List<String> plantasInactivasEn(String fechaHora) {
 	        LocalDateTime dt = parsearFechaHora(fechaHora);
