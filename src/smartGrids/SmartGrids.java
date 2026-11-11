@@ -288,19 +288,19 @@ public class SmartGrids implements ISmartGrids {
 	    }
 
 	    @Override
-	    public int limpiarMonitoreosSinDatos() {
-	        int borrados = 0;
-	        for (List<Monitoreo> lista : monitoreos.values()) {
-	            Iterator<Monitoreo> it = lista.iterator();
-	            while (it.hasNext()) {
-	                Monitoreo m = it.next();
-	                if (m.getEnergia() == 0 && m.getIncidencias() == 0) {
-	                    it.remove();
-	                    borrados++;
+	    public int limpiarMonitoreosSinDatos() { // Elimina todos los monitoreos que tengan energía e incidencias en 0 y devuelve la cantidad de monitoreos eliminados
+	        int borrados = 0; // Contador de monitoreos eliminados
+	        for (List<Monitoreo> lista : monitoreos.values()) { // Recorro todas las listas de monitoreos de cada planta
+	            Iterator<Monitoreo> it = lista.iterator(); // Uso un iterador para poder eliminar elementos mientras recorro la lista
+	            while (it.hasNext()) { // Mientras haya elementos en la lista
+	                Monitoreo m = it.next(); // Obtengo el siguiente monitoreo
+	                if (m.getEnergia() == 0 && m.getIncidencias() == 0) { // Si el monitoreo tiene energía e incidencias en 0, lo elimino
+	                    it.remove(); 
+	                    borrados++; // Incremento el contador de monitoreos eliminados
 	                }
 	            }
 	        }
-	        return borrados;
+	        return borrados; // Devuelvo la cantidad de monitoreos eliminados
 	    }
 
 	@Override
