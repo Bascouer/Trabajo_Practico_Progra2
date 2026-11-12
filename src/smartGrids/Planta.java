@@ -9,7 +9,7 @@ public abstract class Planta {
     private LocalDateTime puestaEnFuncionamiento;
     private String fuentePrimaria;
     private double eficienciaPromedio;
-    private boolean renovable;    //cambie lo de diagrama,hay que modificar sin descartar el viejo, queda como un modelo descartado
+    private boolean renovable;    
 
     public Planta(String nombre, String direccion, double capacidadMaxima, String fechaHoraPuestaEnFuncionamiento,
                   String fuentePrimaria, double eficienciaPromedio, boolean renovable) {
@@ -29,9 +29,9 @@ public abstract class Planta {
     public abstract double calcularCuota();
 
     public boolean cumpleCuota(Monitoreo m) {
-      return m.getEnergia() >= calcularCuota();
-  }
-  
+        return m.getEnergia() >= calcularCuota();
+    }
+
     public String getNombre() {
         return nombre;
     }
