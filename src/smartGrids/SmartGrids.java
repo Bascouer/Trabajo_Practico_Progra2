@@ -334,7 +334,7 @@ public String horasSinVelocidadMinimaPorPlantaEolica() {
 	    }
 
 	@Override
-    public String toString() {
+    public String toString() { // Devuelve un string con la información de todas las plantas registradas, sus estados y monitoreos
         String resultado = "SmartGrids - plantas registradas: " + plantas.size() + "\n";
 
     for (Planta p : plantas.values()) {
