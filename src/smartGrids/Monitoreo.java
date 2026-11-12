@@ -17,7 +17,6 @@ public  class Monitoreo {
         this.extra2 = extra2;
     }
 
-
 public LocalDateTime getFechaHora() {
         return fechaHora;
     }

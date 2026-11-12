@@ -15,7 +15,7 @@ public class PlantaEolica extends Planta {
 
 }
     @Override
-    public double calcularCuota() {
+    public double calcularCuota() { // Devuelve la capacidad mínima de cuota de la planta eólica, que es la capacidad máxima multiplicada por la eficiencia promedio
         return getCapacidadMaxima() * getEficienciaPromedio();
     }
 

@@ -12,12 +12,13 @@ public class PlantaHidraulica extends Planta {
     }
 
     @Override
-    public double calcularCuota() {
+    public double calcularCuota() { // Devuelve la capacidad mínima de cuota de la planta hidráulica, que es la capacidad máxima multiplicada por la eficiencia promedio
         return this.getCapacidadMaxima() * this.getEficienciaPromedio();
     }
 
     @Override
-    public boolean cumpleCuota(Monitoreo m) {
+    public boolean cumpleCuota(Monitoreo m) { // Devuelve true si la energía generada es mayor o igual a la cuota
+
         return m.getEnergia() >= calcularCuota();
     }
     public int getCantidadTurbinas() {
