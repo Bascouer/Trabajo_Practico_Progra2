@@ -26,4 +26,10 @@ public  class PlantaTermica extends Planta {
     public double getCapacidadAlmacenamientoCombustible() {
         return capacidadAlmacenamientoCombustible;
     }
+    @Override
+    public String toString() {
+        return super.toString() + " | tipo: Termica"
+                + " | objetivo emisiones CO2 por hora: " + objetivoEmisionesCo2PorHora
+                + " | capacidad de almacenamiento de combustible: " + capacidadAlmacenamientoCombustible;
+    }
 }
