@@ -28,8 +28,10 @@ public abstract class Planta {
 
     public abstract double calcularCuota();
 
-    public abstract boolean cumpleCuota(Monitoreo m);
-    
+    public boolean cumpleCuota(Monitoreo m) {
+      return m.getEnergia() >= calcularCuota();
+  }
+  
     public String getNombre() {
         return nombre;
     }

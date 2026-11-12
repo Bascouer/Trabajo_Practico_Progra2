@@ -2,7 +2,7 @@ package smartGrids;
 
 import java.time.LocalDateTime;
 
-public  class Monitoreo {
+public class Monitoreo {
     private LocalDateTime fechaHora;
     private double energia;
     private int incidencias;
@@ -17,7 +17,7 @@ public  class Monitoreo {
         this.extra2 = extra2;
     }
 
-public LocalDateTime getFechaHora() {
+    public LocalDateTime getFechaHora() {
         return fechaHora;
     }
 
@@ -37,10 +37,9 @@ public LocalDateTime getFechaHora() {
         return extra2;
     }
 
-    @Override 
+    @Override
     public String toString() {
         return "Monitoreo [fechaHora=" + fechaHora + ", energia=" + energia + ", incidencias=" + incidencias
                 + ", extra1=" + extra1 + ", extra2=" + extra2 + "]";
     }
-}   
-
+}

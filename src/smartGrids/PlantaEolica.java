@@ -19,10 +19,7 @@ public class PlantaEolica extends Planta {
         return getCapacidadMaxima() * getEficienciaPromedio();
     }
 
-    @Override
-    public boolean cumpleCuota(Monitoreo m) {
-        return m.getEnergia() >= calcularCuota();
-    }
+
     public int getCantidadAerogeneradores() {
         return cantidadAerogeneradores;
     }
