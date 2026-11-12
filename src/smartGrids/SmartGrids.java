@@ -333,19 +333,29 @@ public String horasSinVelocidadMinimaPorPlantaEolica() {
 	        return inactivas;
 	    }
 
-	    @Override
-	    public String toString() {
-	        StringBuilder sb = new StringBuilder();
-	        sb.append("SmartGrids System Summary:\n");
-	        sb.append("Total Plantas Registradas: ").append(plantas.size()).append("\n");
-	        for (Map.Entry<String, Planta> entry : plantas.entrySet()) {
-	            sb.append(" - Planta: ").append(entry.getKey())
-	              .append(", Activa: ").append(estaActiva(entry.getKey()))
-	              .append(", Total Generado: ").append(totalGenerado(entry.getKey())).append("\n");
-	        }
-	        return sb.toString();
-	    }
+	@Override
+    public String toString() {
+        String resultado = "SmartGrids - plantas registradas: " + plantas.size() + "\n";
 
+    for (Planta p : plantas.values()) {
+        String nombre = p.getNombre();
+
+        resultado += "\n" + p + "\n";
+        resultado += "  Activa: " + estaActiva(nombre) + "\n";
+        resultado += "  Total generado: " + totalGenerado(nombre) + "\n";
+
+        resultado += "  Cambios de estado:\n";
+        for (Estado e : estados.get(nombre)) {
+            resultado += "    - " + e + "\n";
+        }
+
+        resultado += "  Monitoreos:\n";
+        for (Monitoreo m : monitoreos.get(nombre)) {
+            resultado += "    - " + m + "\n";
+        }
+    }
+    return resultado;
+}
 	// --- Métodos Privados de Validación ---
 
     private void validarNombreUnico(String nombre) {
