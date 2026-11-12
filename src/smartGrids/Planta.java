@@ -13,6 +13,21 @@ public abstract class Planta {
 
     public Planta(String nombre, String direccion, double capacidadMaxima, String fechaHoraPuestaEnFuncionamiento,
                   String fuentePrimaria, double eficienciaPromedio, boolean renovable) {
+    	if (nombre == null || nombre.trim().isEmpty()) {
+            throw new RuntimeException("El nombre de la planta no puede ser nulo ni vacío");
+        }
+        if (direccion == null) {
+            throw new RuntimeException("La dirección no puede ser nula");
+        }
+        if (capacidadMaxima <= 0) {
+            throw new RuntimeException("La capacidad máxima debe ser mayor a 0");
+        }
+        if (fuentePrimaria == null || fuentePrimaria.trim().isEmpty()) {
+            throw new RuntimeException("La fuente primaria no puede ser nula ni vacía");
+        }
+        if (eficienciaPromedio < 0 || eficienciaPromedio > 1) {
+            throw new RuntimeException("La eficiencia promedio debe estar entre 0 y 1");
+        }
         this.nombre = nombre;
         this.direccion = direccion;
         this.capacidadMaxima = capacidadMaxima;

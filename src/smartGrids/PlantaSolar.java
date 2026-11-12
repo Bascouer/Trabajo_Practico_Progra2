@@ -9,6 +9,9 @@ public class PlantaSolar extends Planta {
                        String fuentePrimaria, double eficienciaPromedio, double superficieCubierta, 
                        int cantidadPaneles, double horasRadiacionDiaria) {
         super(nombre, direccion, capacidadMaxima, fechaHoraPuestaEnFuncionamiento, fuentePrimaria, eficienciaPromedio, true);
+        if (superficieCubierta < 0 || cantidadPaneles < 0 || horasRadiacionDiaria < 0) {
+            throw new RuntimeException("Los atributos propios de la planta solar no pueden ser negativos");
+        }
         this.superficieCubierta = superficieCubierta;
         this.cantidadPaneles = cantidadPaneles;
         this.horasRadiacionDiaria = horasRadiacionDiaria;

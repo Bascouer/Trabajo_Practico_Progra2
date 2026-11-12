@@ -7,6 +7,9 @@ public  class PlantaTermica extends Planta {
     public PlantaTermica(String nombre, String direccion, double capacidadMaxima, String fechaHoraPuestaEnFuncionamiento, String tipoCombustible,
             double objetivoEmisionesCo2PorHora, double capacidadAlmacenamientoCombustible) {
     	super(nombre, direccion, capacidadMaxima, fechaHoraPuestaEnFuncionamiento, tipoCombustible, 0.5, false);
+    	if (objetivoEmisionesCo2PorHora < 0 || capacidadAlmacenamientoCombustible < 0) {
+            throw new RuntimeException("Los atributos propios de la planta térmica no pueden ser negativos");
+        }
     		this.objetivoEmisionesCo2PorHora = objetivoEmisionesCo2PorHora;
     		this.capacidadAlmacenamientoCombustible = capacidadAlmacenamientoCombustible;
 }

@@ -7,6 +7,9 @@ public class PlantaHidraulica extends Planta {
     public PlantaHidraulica(String nombre, String direccion, double capacidadMaxima, String fechaHoraPuestaEnFuncionamiento,
                             String fuentePrimaria, double eficienciaPromedio, int cantidadTurbinas, double capacidadEmbalse) {
         super(nombre, direccion, capacidadMaxima, fechaHoraPuestaEnFuncionamiento, fuentePrimaria, eficienciaPromedio, true);
+        if (cantidadTurbinas < 0 || capacidadEmbalse < 0) {
+            throw new RuntimeException("Los atributos propios de la planta hidráulica no pueden ser negativos");
+        }
         this.cantidadTurbinas = cantidadTurbinas;
         this.capacidadEmbalse = capacidadEmbalse;
     }

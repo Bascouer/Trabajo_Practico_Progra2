@@ -93,6 +93,7 @@ public class SmartGrids implements ISmartGrids {
 	    public void activarPlanta(String nombre, String fechaHora) { // Cambia el estado de la planta a activa en la fecha y hora indicada agregando un nuevo Estado a la lista de estados de la planta
 	        obtenerPlanta(nombre);
 	        LocalDateTime dt = parsearFechaHora(fechaHora);
+	        validarOrdenEstado(nombre, dt);
 	        estados.get(nombre).add(new Estado(dt, true));
 	    }
 
@@ -100,6 +101,7 @@ public class SmartGrids implements ISmartGrids {
 	    public void desactivarPlanta(String nombre, String fechaHora) { // Cambia el estado de la planta a inactiva en la fecha y hora indicada agregando un nuevo Estado a la lista de estados de la planta
 	        obtenerPlanta(nombre);
 	        LocalDateTime dt = parsearFechaHora(fechaHora);
+	        validarOrdenEstado(nombre, dt);
 	        estados.get(nombre).add(new Estado(dt, false));
 	    }
 
@@ -387,5 +389,19 @@ public String horasSinVelocidadMinimaPorPlantaEolica() {
             throw new RuntimeException("Formato de fecha inválido: " + fecha);
         }
     }
+    private void validarOrdenEstado(String nombre, LocalDateTime fechaHora) {
+        Planta p = obtenerPlanta(nombre);
+        if (fechaHora.isBefore(p.getPuestaEnFuncionamiento())) {
+            throw new RuntimeException("La fecha de cambio de estado es anterior a la puesta en funcionamiento");
+        }
+        List<Estado> lista = estados.get(nombre);
+        if (!lista.isEmpty()) {
+            LocalDateTime ultimaFecha = lista.get(lista.size() - 1).getFechaHora();
+            if (fechaHora.isBefore(ultimaFecha)) {
+                throw new RuntimeException("La fecha del estado no puede ser anterior al último estado registrado");
+            }
+        }
+    }
+    
 
 }
