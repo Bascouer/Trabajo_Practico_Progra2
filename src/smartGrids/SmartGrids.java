@@ -306,7 +306,7 @@ public String horasSinVelocidadMinimaPorPlantaEolica() {
 
 	@Override
     public List<String> plantasOrdenadasPorEnergiaGenerada() { 
-    List<Planta> pendientes = new ArrayList<>(plantas.values()); // Copia de las plantas pendietes para ordenar
+    List<Planta> pendientes = new ArrayList<>(plantas.values()); // Copia de las plantas pendientes para ordenar
     List<String> resultado = new ArrayList<>(); // Lista donde estaran los nombres ordenados por energía generada
 
     while (!pendientes.isEmpty()) { // Mientras haya plantas pendientes
