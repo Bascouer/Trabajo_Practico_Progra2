@@ -148,6 +148,9 @@ public class SmartGrids implements ISmartGrids {
 
 	    @Override
 	    public void registrarMonitoreo(String nombre, String fechaHora, double energiaGenerada, int incidencias, double velocidadViento) {
+			if (velocidadViento < 0) { // Verifico que la velocidad del viento no sea negativa, si lo es lanzo una excepción
+            throw new RuntimeException("La velocidad del viento no puede ser negativa");
+            }
 	        Planta p = obtenerPlanta(nombre); // Obtengo la planta por su nombre
 	        if (!(p instanceof PlantaEolica)) { // Verifico que la planta sea eólica, si no lo es lanzo una excepción
 	            throw new RuntimeException("Este método de monitoreo es exclusivo para plantas eólicas");
@@ -158,7 +161,10 @@ public class SmartGrids implements ISmartGrids {
 
 	    @Override
 	    public void registrarMonitoreo(String nombre, String fechaHora, double energiaGenerada, int incidencias, double co2Emitido, double combustibleUtilizado) {
-	        Planta p = obtenerPlanta(nombre); // Obtengo la planta por su nombre
+	        if (co2Emitido < 0 || combustibleUtilizado < 0) { // Verifico que el CO2 emitido y el combustible utilizado no sean negativos, si lo son lanzo una excepción
+            throw new RuntimeException("CO2 y combustible no pueden ser negativos");
+            }
+			Planta p = obtenerPlanta(nombre); // Obtengo la planta por su nombre
 	        if (!(p instanceof PlantaTermica)) { // Verifico que la planta sea térmica, si no lo es lanzo una excepción
 	            throw new RuntimeException("Este método de monitoreo es exclusivo para plantas térmicas");
 	        }
